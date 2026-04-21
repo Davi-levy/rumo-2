@@ -14,16 +14,157 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      exercicios: {
+        Row: {
+          created_at: string
+          enunciado: string
+          id: string
+          ordem: number
+          resposta_correta: string
+          trilha_id: string
+        }
+        Insert: {
+          created_at?: string
+          enunciado: string
+          id?: string
+          ordem?: number
+          resposta_correta: string
+          trilha_id: string
+        }
+        Update: {
+          created_at?: string
+          enunciado?: string
+          id?: string
+          ordem?: number
+          resposta_correta?: string
+          trilha_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exercicios_trilha_id_fkey"
+            columns: ["trilha_id"]
+            isOneToOne: false
+            referencedRelation: "trilhas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          nome: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id: string
+          nome: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          nome?: string
+        }
+        Relationships: []
+      }
+      respostas: {
+        Row: {
+          acertou: boolean
+          criado_em: string
+          exercicio_id: string
+          feedback_ia: string | null
+          id: string
+          resposta: string
+          usuario_id: string
+        }
+        Insert: {
+          acertou?: boolean
+          criado_em?: string
+          exercicio_id: string
+          feedback_ia?: string | null
+          id?: string
+          resposta: string
+          usuario_id: string
+        }
+        Update: {
+          acertou?: boolean
+          criado_em?: string
+          exercicio_id?: string
+          feedback_ia?: string | null
+          id?: string
+          resposta?: string
+          usuario_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "respostas_exercicio_id_fkey"
+            columns: ["exercicio_id"]
+            isOneToOne: false
+            referencedRelation: "exercicios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trilhas: {
+        Row: {
+          created_at: string
+          descricao: string
+          id: string
+          nome: string
+          ordem: number
+        }
+        Insert: {
+          created_at?: string
+          descricao: string
+          id?: string
+          nome: string
+          ordem?: number
+        }
+        Update: {
+          created_at?: string
+          descricao?: string
+          id?: string
+          nome?: string
+          ordem?: number
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "aluno" | "professor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +291,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["aluno", "professor"],
+    },
   },
 } as const
