@@ -9,21 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ProfessorRouteImport } from './routes/professor'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as TrilhaTrilhaIdRouteImport } from './routes/trilha.$trilhaId'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ProfessorRouteImport } from './routes/professor'
 import { Route as ExercicioIdRouteImport } from './routes/exercicio.$id'
+import { Route as TrilhaTrilhaIdRouteImport } from './routes/trilha.$trilhaId'
 
-const ProfessorRoute = ProfessorRouteImport.update({
-  id: '/professor',
-  path: '/professor',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -31,19 +26,24 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TrilhaTrilhaIdRoute = TrilhaTrilhaIdRouteImport.update({
-  id: '/trilha/$trilhaId',
-  path: '/trilha/$trilhaId',
+const ProfessorRoute = ProfessorRouteImport.update({
+  id: '/professor',
+  path: '/professor',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExercicioIdRoute = ExercicioIdRouteImport.update({
   id: '/exercicio/$id',
   path: '/exercicio/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrilhaTrilhaIdRoute = TrilhaTrilhaIdRouteImport.update({
+  id: '/trilha/$trilhaId',
+  path: '/trilha/$trilhaId',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -110,18 +110,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/professor': {
-      id: '/professor'
-      path: '/professor'
-      fullPath: '/professor'
-      preLoaderRoute: typeof ProfessorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -131,18 +124,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/trilha/$trilhaId': {
-      id: '/trilha/$trilhaId'
-      path: '/trilha/$trilhaId'
-      fullPath: '/trilha/$trilhaId'
-      preLoaderRoute: typeof TrilhaTrilhaIdRouteImport
+    '/professor': {
+      id: '/professor'
+      path: '/professor'
+      fullPath: '/professor'
+      preLoaderRoute: typeof ProfessorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/exercicio/$id': {
@@ -150,6 +143,13 @@ declare module '@tanstack/react-router' {
       path: '/exercicio/$id'
       fullPath: '/exercicio/$id'
       preLoaderRoute: typeof ExercicioIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trilha/$trilhaId': {
+      id: '/trilha/$trilhaId'
+      path: '/trilha/$trilhaId'
+      fullPath: '/trilha/$trilhaId'
+      preLoaderRoute: typeof TrilhaTrilhaIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -166,3 +166,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
