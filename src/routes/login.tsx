@@ -21,7 +21,7 @@ function LoginPage() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [tipo, setTipo] = useState<"aluno" | "professor">("aluno");
+  
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
