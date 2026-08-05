@@ -36,7 +36,7 @@ function LoginPage() {
       if (error) toast.error(error);
       else toast.success("Bem-vindo de volta.");
     } else {
-      const { error } = await signUp(nome, email, password, tipo);
+      const { error } = await signUp(nome, email, password, "aluno");
       if (error) toast.error(error);
       else toast.success("Conta criada. Você já está logado.");
     }
