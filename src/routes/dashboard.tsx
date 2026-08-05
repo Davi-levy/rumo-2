@@ -1,12 +1,19 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
-import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { getProgress } from "@/lib/progress";
 
 export const Route = createFileRoute("/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard — RUMO" }] }),
+  head: () => ({
+    meta: [
+      { title: "Dashboard — RUMO" },
+      { name: "description", content: "Acompanhe seu progresso nas trilhas de programação da RUMO." },
+      { property: "og:title", content: "Dashboard — RUMO" },
+      { property: "og:description", content: "Acompanhe seu progresso nas trilhas de programação." },
+    ],
+  }),
   component: Dashboard,
 });
 
@@ -29,56 +36,55 @@ interface Atividade {
 }
 
 function Dashboard() {
-  const { user, profile, loading: authLoading } = useAuth();
-  const navigate = useNavigate();
   const [trilhas, setTrilhas] = useState<Trilha[]>([]);
   const [atividades, setAtividades] = useState<Atividade[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!authLoading && !user) navigate({ to: "/login" });
-  }, [user, authLoading, navigate]);
-
-  useEffect(() => {
-    if (!user) return;
     (async () => {
-      const [{ data: trilhasData }, { data: exsData }, { data: respsData }, { data: ativsData }] =
-        await Promise.all([
-          supabase.from("trilhas").select("*").order("ordem"),
-          supabase.from("exercicios").select("id, trilha_id"),
-          supabase.from("respostas").select("exercicio_id, acertou").eq("usuario_id", user.id),
-          supabase
-            .from("respostas")
-            .select("id, resposta, acertou, criado_em, exercicio:exercicios(enunciado, trilha:trilhas(nome))")
-            .eq("usuario_id", user.id)
-            .order("criado_em", { ascending: false })
-            .limit(5),
-        ]);
+      const [{ data: trilhasData }, { data: exsData }] = await Promise.all([
+        supabase.from("trilhas").select("*").order("ordem"),
+        supabase.from("exercicios").select("id, trilha_id, enunciado"),
+      ]);
+
+      const progresso = getProgress();
 
       const exsByTrilha: Record<string, string[]> = {};
       (exsData || []).forEach((e) => {
         exsByTrilha[e.trilha_id] = [...(exsByTrilha[e.trilha_id] || []), e.id];
       });
 
-      const respMap = new Map<string, boolean>();
-      (respsData || []).forEach((r) => respMap.set(r.exercicio_id, r.acertou));
-
       const merged: Trilha[] = (trilhasData || []).map((t) => {
         const ids = exsByTrilha[t.id] || [];
-        const feitos = ids.filter((id) => respMap.has(id)).length;
-        const acertos = ids.filter((id) => respMap.get(id) === true).length;
+        const feitos = ids.filter((id) => progresso[id]).length;
+        const acertos = ids.filter((id) => progresso[id]?.acertou).length;
         return { ...t, total: ids.length, feitos, acertos };
       });
 
+      const trilhaNome = new Map((trilhasData || []).map((t) => [t.id, t.nome]));
+      const exMap = new Map((exsData || []).map((e) => [e.id, e]));
+
+      const ativs: Atividade[] = Object.values(progresso)
+        .sort((a, b) => b.criado_em.localeCompare(a.criado_em))
+        .slice(0, 5)
+        .map((p) => {
+          const ex = exMap.get(p.exercicio_id);
+          return {
+            id: p.exercicio_id,
+            resposta: p.resposta,
+            acertou: p.acertou,
+            criado_em: p.criado_em,
+            exercicio: ex
+              ? { enunciado: ex.enunciado, trilha: { nome: trilhaNome.get(ex.trilha_id) ?? "" } }
+              : null,
+          };
+        });
+
       setTrilhas(merged);
-      setAtividades((ativsData as unknown as Atividade[]) || []);
+      setAtividades(ativs);
       setLoading(false);
     })();
-  }, [user]);
-
-  if (authLoading || !user) {
-    return <div className="min-h-screen bg-background" />;
-  }
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -94,9 +100,10 @@ function Dashboard() {
             Dashboard
           </p>
           <h1 className="font-display text-4xl md:text-5xl font-bold">
-            Olá, {profile?.nome ?? "aluno"} <span className="inline-block">👋</span>
+            Bem-vindo <span className="inline-block">👋</span>
           </h1>
         </motion.div>
+
 
         <section className="mb-20">
           <h2 className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-6">
