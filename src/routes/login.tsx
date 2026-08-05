@@ -85,38 +85,8 @@ function LoginPage() {
           <Field label="Email" type="email" value={email} onChange={setEmail} required />
           <Field label="Senha" type="password" value={password} onChange={setPassword} required minLength={6} />
 
-          <AnimatePresence mode="wait">
-            {mode === "signup" && (
-              <motion.div
-                key="tipo"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden"
-              >
-                <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
-                  Tipo de conta
-                </label>
-                <div className="grid grid-cols-2 gap-px bg-border">
-                  {(["aluno", "professor"] as const).map((t) => (
-                    <button
-                      key={t}
-                      type="button"
-                      onClick={() => setTipo(t)}
-                      className={`py-3 text-sm transition-colors ${
-                        tipo === t
-                          ? "bg-foreground text-background"
-                          : "bg-background text-muted-foreground hover:text-foreground"
-                      }`}
-                    >
-                      {t === "aluno" ? "Aluno" : "Professor"}
-                    </button>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+
+
 
           <button
             type="submit"
