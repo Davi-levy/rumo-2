@@ -1,12 +1,20 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
-import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { saveAnswer } from "@/lib/progress";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/exercicio/$id")({
+  head: () => ({
+    meta: [
+      { title: "Exercício — RUMO" },
+      { name: "description", content: "Resolva o exercício e receba feedback instantâneo da IA." },
+      { property: "og:title", content: "Exercício — RUMO" },
+      { property: "og:description", content: "Resolva o exercício e receba feedback instantâneo da IA." },
+    ],
+  }),
   component: ExercicioPage,
 });
 
@@ -20,8 +28,6 @@ interface Ex {
 
 function ExercicioPage() {
   const { id } = Route.useParams();
-  const { user, loading: authLoading } = useAuth();
-  const navigate = useNavigate();
   const [ex, setEx] = useState<Ex | null>(null);
   const [resposta, setResposta] = useState("");
   const [enviando, setEnviando] = useState(false);
@@ -29,9 +35,6 @@ function ExercicioPage() {
   const [typed, setTyped] = useState("");
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  useEffect(() => {
-    if (!authLoading && !user) navigate({ to: "/login" });
-  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     (async () => {
