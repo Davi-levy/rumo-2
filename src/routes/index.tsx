@@ -73,16 +73,16 @@ function Index() {
             className="mt-12 flex items-center justify-center gap-4"
           >
             <Link
-              to="/login"
+              to="/dashboard"
               className="ripple-btn px-8 py-4 bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
             >
               Começar agora
             </Link>
             <Link
-              to="/login"
+              to="/dashboard"
               className="px-8 py-4 border border-border text-foreground hover:border-foreground transition-colors"
             >
-              Entrar
+              Ver trilhas
             </Link>
           </motion.div>
         </div>

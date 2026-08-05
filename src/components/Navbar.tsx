@@ -1,16 +1,7 @@
-import { Link, useNavigate } from "@tanstack/react-router";
-import { useAuth } from "@/hooks/useAuth";
+import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 
 export function Navbar() {
-  const { user, role, signOut } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await signOut();
-    navigate({ to: "/" });
-  };
-
   return (
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
@@ -23,44 +14,13 @@ export function Navbar() {
           RUMO
         </Link>
         <div className="flex items-center gap-8 text-sm">
-          {user ? (
-            <>
-              <Link
-                to="/dashboard"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-                activeProps={{ className: "text-foreground" }}
-              >
-                Dashboard
-              </Link>
-              {role === "professor" && (
-                <Link
-                  to="/professor"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  activeProps={{ className: "text-foreground" }}
-                >
-                  Professor
-                </Link>
-              )}
-              <button
-                onClick={handleLogout}
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Sair
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="text-muted-foreground hover:text-foreground transition-colors">
-                Entrar
-              </Link>
-              <Link
-                to="/login"
-                className="ripple-btn px-4 py-2 bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
-              >
-                Começar
-              </Link>
-            </>
-          )}
+          <Link
+            to="/dashboard"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+            activeProps={{ className: "text-foreground" }}
+          >
+            Dashboard
+          </Link>
         </div>
       </div>
     </motion.nav>

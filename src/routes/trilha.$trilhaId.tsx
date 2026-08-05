@@ -1,49 +1,46 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
-import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { getProgress } from "@/lib/progress";
 
 export const Route = createFileRoute("/trilha/$trilhaId")({
+  head: () => ({
+    meta: [
+      { title: "Trilha — RUMO" },
+      { name: "description", content: "Exercícios da trilha de programação, um passo por vez." },
+      { property: "og:title", content: "Trilha — RUMO" },
+      { property: "og:description", content: "Exercícios da trilha de programação, um passo por vez." },
+    ],
+  }),
   component: TrilhaPage,
 });
 
 function TrilhaPage() {
   const { trilhaId } = Route.useParams();
-  const { user, loading: authLoading } = useAuth();
-  const navigate = useNavigate();
   const [trilha, setTrilha] = useState<{ nome: string; descricao: string } | null>(null);
   const [exs, setExs] = useState<Array<{ id: string; enunciado: string; ordem: number; feito: boolean; acertou: boolean }>>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!authLoading && !user) navigate({ to: "/login" });
-  }, [user, authLoading, navigate]);
-
-  useEffect(() => {
-    if (!user) return;
     (async () => {
-      const [{ data: t }, { data: e }, { data: r }] = await Promise.all([
+      const [{ data: t }, { data: e }] = await Promise.all([
         supabase.from("trilhas").select("nome, descricao").eq("id", trilhaId).maybeSingle(),
         supabase.from("exercicios").select("id, enunciado, ordem").eq("trilha_id", trilhaId).order("ordem"),
-        supabase.from("respostas").select("exercicio_id, acertou").eq("usuario_id", user.id),
       ]);
-      const respMap = new Map<string, boolean>();
-      (r || []).forEach((x) => respMap.set(x.exercicio_id, x.acertou));
+      const progresso = getProgress();
       setTrilha(t);
       setExs(
         (e || []).map((x) => ({
           ...x,
-          feito: respMap.has(x.id),
-          acertou: respMap.get(x.id) === true,
+          feito: !!progresso[x.id],
+          acertou: progresso[x.id]?.acertou === true,
         }))
       );
       setLoading(false);
     })();
-  }, [user, trilhaId]);
-
-  if (authLoading || !user) return <div className="min-h-screen bg-background" />;
+  }, [trilhaId]);
 
   return (
     <div className="min-h-screen bg-background">
