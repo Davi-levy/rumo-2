@@ -11,8 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as ProfessorRouteImport } from './routes/professor'
 import { Route as ExercicioIdRouteImport } from './routes/exercicio.$id'
 import { Route as TrilhaTrilhaIdRouteImport } from './routes/trilha.$trilhaId'
 
@@ -24,16 +22,6 @@ const IndexRoute = IndexRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProfessorRoute = ProfessorRouteImport.update({
-  id: '/professor',
-  path: '/professor',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExercicioIdRoute = ExercicioIdRouteImport.update({
@@ -50,16 +38,12 @@ const TrilhaTrilhaIdRoute = TrilhaTrilhaIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
-  '/login': typeof LoginRoute
-  '/professor': typeof ProfessorRoute
   '/exercicio/$id': typeof ExercicioIdRoute
   '/trilha/$trilhaId': typeof TrilhaTrilhaIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
-  '/login': typeof LoginRoute
-  '/professor': typeof ProfessorRoute
   '/exercicio/$id': typeof ExercicioIdRoute
   '/trilha/$trilhaId': typeof TrilhaTrilhaIdRoute
 }
@@ -67,43 +51,20 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
-  '/login': typeof LoginRoute
-  '/professor': typeof ProfessorRoute
   '/exercicio/$id': typeof ExercicioIdRoute
   '/trilha/$trilhaId': typeof TrilhaTrilhaIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/dashboard'
-    | '/login'
-    | '/professor'
-    | '/exercicio/$id'
-    | '/trilha/$trilhaId'
+  fullPaths: '/' | '/dashboard' | '/exercicio/$id' | '/trilha/$trilhaId'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/dashboard'
-    | '/login'
-    | '/professor'
-    | '/exercicio/$id'
-    | '/trilha/$trilhaId'
-  id:
-    | '__root__'
-    | '/'
-    | '/dashboard'
-    | '/login'
-    | '/professor'
-    | '/exercicio/$id'
-    | '/trilha/$trilhaId'
+  to: '/' | '/dashboard' | '/exercicio/$id' | '/trilha/$trilhaId'
+  id: '__root__' | '/' | '/dashboard' | '/exercicio/$id' | '/trilha/$trilhaId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
-  LoginRoute: typeof LoginRoute
-  ProfessorRoute: typeof ProfessorRoute
   ExercicioIdRoute: typeof ExercicioIdRoute
   TrilhaTrilhaIdRoute: typeof TrilhaTrilhaIdRoute
 }
@@ -122,20 +83,6 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/professor': {
-      id: '/professor'
-      path: '/professor'
-      fullPath: '/professor'
-      preLoaderRoute: typeof ProfessorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/exercicio/$id': {
@@ -158,8 +105,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
-  LoginRoute: LoginRoute,
-  ProfessorRoute: ProfessorRoute,
   ExercicioIdRoute: ExercicioIdRoute,
   TrilhaTrilhaIdRoute: TrilhaTrilhaIdRoute,
 }
