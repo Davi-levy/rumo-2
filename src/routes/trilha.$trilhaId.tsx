@@ -42,9 +42,6 @@ function TrilhaPage() {
     })();
   }, [trilhaId]);
 
-
-  if (authLoading || !user) return <div className="min-h-screen bg-background" />;
-
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
