@@ -65,7 +65,7 @@ function ExercicioPage() {
   const normalize = (s: string) => s.toLowerCase().trim().replace(/\s+/g, " ").replace(/['"]/g, "");
 
   const handleSubmit = async () => {
-    if (!ex || !user || !resposta.trim()) return;
+    if (!ex || !resposta.trim()) return;
     setEnviando(true);
     setFeedback(null);
 
@@ -79,12 +79,12 @@ function ExercicioPage() {
       ? `Excelente. Sua resposta está correta — você demonstrou compreensão clara do conceito. Continue praticando para fixar o aprendizado e avance para o próximo exercício.`
       : `Sua resposta precisa de ajustes. Revise o enunciado com atenção e considere a estrutura esperada. Dica: a resposta esperada começa com "${ex.resposta_correta.slice(0, 12)}…". Tente novamente quando se sentir pronto.`;
 
-    await supabase.from("respostas").insert({
-      usuario_id: user.id,
+    saveAnswer({
       exercicio_id: ex.id,
       resposta,
       feedback_ia: texto,
       acertou,
+      criado_em: new Date().toISOString(),
     });
 
     setFeedback({ texto, acertou });
@@ -92,7 +92,7 @@ function ExercicioPage() {
     if (acertou) toast.success("Resposta correta!");
   };
 
-  if (authLoading || !user) return <div className="min-h-screen bg-background" />;
+
 
   return (
     <div className="min-h-screen bg-background">
