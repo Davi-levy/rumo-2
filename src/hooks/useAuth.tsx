@@ -17,7 +17,12 @@ interface AuthCtx {
   role: Role | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error?: string }>;
-  signUp: (nome: string, email: string, password: string, tipo: Role) => Promise<{ error?: string }>;
+  signUp: (
+    nome: string,
+    email: string,
+    password: string,
+    tipo: Role,
+  ) => Promise<{ error?: string; needsConfirmation?: boolean }>;
   signOut: () => Promise<void>;
 }
 
