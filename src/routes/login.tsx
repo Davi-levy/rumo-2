@@ -33,13 +33,29 @@ function LoginPage() {
     setLoading(true);
     if (mode === "login") {
       const { error } = await signIn(email, password);
-      if (error) toast.error(error);
+      if (error)
+        toast.error(
+          error === "Invalid login credentials"
+            ? "Email ou senha incorretos."
+            : error === "Email not confirmed"
+              ? "Confirme seu email antes de entrar."
+              : error,
+        );
       else toast.success("Bem-vindo de volta.");
     } else {
-      const { error } = await signUp(nome, email, password, "aluno");
-      if (error) toast.error(error);
-      else toast.success("Conta criada. Você já está logado.");
+      const { error, needsConfirmation } = await signUp(nome, email, password, "aluno");
+      if (error)
+        toast.error(
+          error === "User already registered"
+            ? "Este email já está cadastrado. Faça login."
+            : error,
+        );
+      else if (needsConfirmation) {
+        toast.success("Conta criada. Confirme o link enviado ao seu email para entrar.");
+        setMode("login");
+      } else toast.success("Conta criada. Você já está logado.");
     }
+
     setLoading(false);
   };
 
