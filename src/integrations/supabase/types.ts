@@ -16,32 +16,73 @@ export type Database = {
     Tables: {
       exercicios: {
         Row: {
-          created_at: string
-          enunciado: string
+          criado_em: string
+          dica: string | null
+          explicacao: string | null
+          id: string
+          modulo_id: string
+          ordem: number
+          pergunta: string
+          resposta_esperada: string
+        }
+        Insert: {
+          criado_em?: string
+          dica?: string | null
+          explicacao?: string | null
+          id?: string
+          modulo_id: string
+          ordem?: number
+          pergunta: string
+          resposta_esperada: string
+        }
+        Update: {
+          criado_em?: string
+          dica?: string | null
+          explicacao?: string | null
+          id?: string
+          modulo_id?: string
+          ordem?: number
+          pergunta?: string
+          resposta_esperada?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exercicios_modulo_id_fkey"
+            columns: ["modulo_id"]
+            isOneToOne: false
+            referencedRelation: "modulos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      modulos: {
+        Row: {
+          conteudo: string
+          criado_em: string
           id: string
           ordem: number
-          resposta_correta: string
+          titulo: string
           trilha_id: string
         }
         Insert: {
-          created_at?: string
-          enunciado: string
+          conteudo?: string
+          criado_em?: string
           id?: string
           ordem?: number
-          resposta_correta: string
+          titulo: string
           trilha_id: string
         }
         Update: {
-          created_at?: string
-          enunciado?: string
+          conteudo?: string
+          criado_em?: string
           id?: string
           ordem?: number
-          resposta_correta?: string
+          titulo?: string
           trilha_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "exercicios_trilha_id_fkey"
+            foreignKeyName: "modulos_trilha_id_fkey"
             columns: ["trilha_id"]
             isOneToOne: false
             referencedRelation: "trilhas"
@@ -73,27 +114,30 @@ export type Database = {
       respostas: {
         Row: {
           acertou: boolean
+          atualizado_em: string
           criado_em: string
           exercicio_id: string
-          feedback_ia: string | null
+          feedback: string | null
           id: string
           resposta: string
           usuario_id: string
         }
         Insert: {
           acertou?: boolean
+          atualizado_em?: string
           criado_em?: string
           exercicio_id: string
-          feedback_ia?: string | null
+          feedback?: string | null
           id?: string
           resposta: string
           usuario_id: string
         }
         Update: {
           acertou?: boolean
+          atualizado_em?: string
           criado_em?: string
           exercicio_id?: string
-          feedback_ia?: string | null
+          feedback?: string | null
           id?: string
           resposta?: string
           usuario_id?: string
@@ -110,25 +154,31 @@ export type Database = {
       }
       trilhas: {
         Row: {
-          created_at: string
-          descricao: string
+          criado_em: string
+          descricao: string | null
           id: string
-          nome: string
-          ordem: number
+          linguagem: string
+          nivel: Database["public"]["Enums"]["nivel_trilha"]
+          titulo: string
+          usuario_id: string
         }
         Insert: {
-          created_at?: string
-          descricao: string
+          criado_em?: string
+          descricao?: string | null
           id?: string
-          nome: string
-          ordem?: number
+          linguagem: string
+          nivel?: Database["public"]["Enums"]["nivel_trilha"]
+          titulo: string
+          usuario_id: string
         }
         Update: {
-          created_at?: string
-          descricao?: string
+          criado_em?: string
+          descricao?: string | null
           id?: string
-          nome?: string
-          ordem?: number
+          linguagem?: string
+          nivel?: Database["public"]["Enums"]["nivel_trilha"]
+          titulo?: string
+          usuario_id?: string
         }
         Relationships: []
       }
@@ -159,6 +209,7 @@ export type Database = {
     }
     Enums: {
       app_role: "aluno" | "professor"
+      nivel_trilha: "iniciante" | "intermediario" | "avancado"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -287,6 +338,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["aluno", "professor"],
+      nivel_trilha: ["iniciante", "intermediario", "avancado"],
     },
   },
 } as const

@@ -10,63 +10,108 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as ExercicioIdRouteImport } from './routes/exercicio.$id'
-import { Route as TrilhaTrilhaIdRouteImport } from './routes/trilha.$trilhaId'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedNovaTrilhaRouteImport } from './routes/_authenticated/nova-trilha'
+import { Route as AuthenticatedExercicioIdRouteImport } from './routes/_authenticated/exercicio.$id'
+import { Route as AuthenticatedTrilhaTrilhaIdRouteImport } from './routes/_authenticated/trilha.$trilhaId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardRoute = DashboardRouteImport.update({
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const ExercicioIdRoute = ExercicioIdRouteImport.update({
-  id: '/exercicio/$id',
-  path: '/exercicio/$id',
-  getParentRoute: () => rootRouteImport,
+const AuthenticatedNovaTrilhaRoute = AuthenticatedNovaTrilhaRouteImport.update({
+  id: '/nova-trilha',
+  path: '/nova-trilha',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const TrilhaTrilhaIdRoute = TrilhaTrilhaIdRouteImport.update({
-  id: '/trilha/$trilhaId',
-  path: '/trilha/$trilhaId',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const AuthenticatedExercicioIdRoute =
+  AuthenticatedExercicioIdRouteImport.update({
+    id: '/exercicio/$id',
+    path: '/exercicio/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTrilhaTrilhaIdRoute =
+  AuthenticatedTrilhaTrilhaIdRouteImport.update({
+    id: '/trilha/$trilhaId',
+    path: '/trilha/$trilhaId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/exercicio/$id': typeof ExercicioIdRoute
-  '/trilha/$trilhaId': typeof TrilhaTrilhaIdRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/nova-trilha': typeof AuthenticatedNovaTrilhaRoute
+  '/exercicio/$id': typeof AuthenticatedExercicioIdRoute
+  '/trilha/$trilhaId': typeof AuthenticatedTrilhaTrilhaIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/exercicio/$id': typeof ExercicioIdRoute
-  '/trilha/$trilhaId': typeof TrilhaTrilhaIdRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/nova-trilha': typeof AuthenticatedNovaTrilhaRoute
+  '/exercicio/$id': typeof AuthenticatedExercicioIdRoute
+  '/trilha/$trilhaId': typeof AuthenticatedTrilhaTrilhaIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/exercicio/$id': typeof ExercicioIdRoute
-  '/trilha/$trilhaId': typeof TrilhaTrilhaIdRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/nova-trilha': typeof AuthenticatedNovaTrilhaRoute
+  '/_authenticated/exercicio/$id': typeof AuthenticatedExercicioIdRoute
+  '/_authenticated/trilha/$trilhaId': typeof AuthenticatedTrilhaTrilhaIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/exercicio/$id' | '/trilha/$trilhaId'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/nova-trilha'
+    | '/exercicio/$id'
+    | '/trilha/$trilhaId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/exercicio/$id' | '/trilha/$trilhaId'
-  id: '__root__' | '/' | '/dashboard' | '/exercicio/$id' | '/trilha/$trilhaId'
+  to:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/nova-trilha'
+    | '/exercicio/$id'
+    | '/trilha/$trilhaId'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/nova-trilha'
+    | '/_authenticated/exercicio/$id'
+    | '/_authenticated/trilha/$trilhaId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
-  ExercicioIdRoute: typeof ExercicioIdRoute
-  TrilhaTrilhaIdRoute: typeof TrilhaTrilhaIdRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -78,45 +123,73 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard': {
-      id: '/dashboard'
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/exercicio/$id': {
-      id: '/exercicio/$id'
+    '/_authenticated/nova-trilha': {
+      id: '/_authenticated/nova-trilha'
+      path: '/nova-trilha'
+      fullPath: '/nova-trilha'
+      preLoaderRoute: typeof AuthenticatedNovaTrilhaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/exercicio/$id': {
+      id: '/_authenticated/exercicio/$id'
       path: '/exercicio/$id'
       fullPath: '/exercicio/$id'
-      preLoaderRoute: typeof ExercicioIdRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedExercicioIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/trilha/$trilhaId': {
-      id: '/trilha/$trilhaId'
+    '/_authenticated/trilha/$trilhaId': {
+      id: '/_authenticated/trilha/$trilhaId'
       path: '/trilha/$trilhaId'
       fullPath: '/trilha/$trilhaId'
-      preLoaderRoute: typeof TrilhaTrilhaIdRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedTrilhaTrilhaIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedNovaTrilhaRoute: typeof AuthenticatedNovaTrilhaRoute
+  AuthenticatedExercicioIdRoute: typeof AuthenticatedExercicioIdRoute
+  AuthenticatedTrilhaTrilhaIdRoute: typeof AuthenticatedTrilhaTrilhaIdRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedNovaTrilhaRoute: AuthenticatedNovaTrilhaRoute,
+  AuthenticatedExercicioIdRoute: AuthenticatedExercicioIdRoute,
+  AuthenticatedTrilhaTrilhaIdRoute: AuthenticatedTrilhaTrilhaIdRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
-  ExercicioIdRoute: ExercicioIdRoute,
-  TrilhaTrilhaIdRoute: TrilhaTrilhaIdRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
