@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedNovaTrilhaRouteImport } from './routes/_authenticated/nova-trilha'
+import { Route as AuthenticatedExercicioIdRouteImport } from './routes/_authenticated/exercicio.$id'
 import { Route as AuthenticatedTrilhaTrilhaIdRouteImport } from './routes/_authenticated/trilha.$trilhaId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -40,6 +41,12 @@ const AuthenticatedNovaTrilhaRoute = AuthenticatedNovaTrilhaRouteImport.update({
   path: '/nova-trilha',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedExercicioIdRoute =
+  AuthenticatedExercicioIdRouteImport.update({
+    id: '/exercicio/$id',
+    path: '/exercicio/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedTrilhaTrilhaIdRoute =
   AuthenticatedTrilhaTrilhaIdRouteImport.update({
     id: '/trilha/$trilhaId',
@@ -52,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/nova-trilha': typeof AuthenticatedNovaTrilhaRoute
+  '/exercicio/$id': typeof AuthenticatedExercicioIdRoute
   '/trilha/$trilhaId': typeof AuthenticatedTrilhaTrilhaIdRoute
 }
 export interface FileRoutesByTo {
@@ -59,6 +67,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/nova-trilha': typeof AuthenticatedNovaTrilhaRoute
+  '/exercicio/$id': typeof AuthenticatedExercicioIdRoute
   '/trilha/$trilhaId': typeof AuthenticatedTrilhaTrilhaIdRoute
 }
 export interface FileRoutesById {
@@ -68,13 +77,26 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/nova-trilha': typeof AuthenticatedNovaTrilhaRoute
+  '/_authenticated/exercicio/$id': typeof AuthenticatedExercicioIdRoute
   '/_authenticated/trilha/$trilhaId': typeof AuthenticatedTrilhaTrilhaIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/dashboard' | '/nova-trilha' | '/trilha/$trilhaId'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/nova-trilha'
+    | '/exercicio/$id'
+    | '/trilha/$trilhaId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/dashboard' | '/nova-trilha' | '/trilha/$trilhaId'
+  to:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/nova-trilha'
+    | '/exercicio/$id'
+    | '/trilha/$trilhaId'
   id:
     | '__root__'
     | '/'
@@ -82,6 +104,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/_authenticated/dashboard'
     | '/_authenticated/nova-trilha'
+    | '/_authenticated/exercicio/$id'
     | '/_authenticated/trilha/$trilhaId'
   fileRoutesById: FileRoutesById
 }
@@ -128,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedNovaTrilhaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/exercicio/$id': {
+      id: '/_authenticated/exercicio/$id'
+      path: '/exercicio/$id'
+      fullPath: '/exercicio/$id'
+      preLoaderRoute: typeof AuthenticatedExercicioIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/trilha/$trilhaId': {
       id: '/_authenticated/trilha/$trilhaId'
       path: '/trilha/$trilhaId'
@@ -141,12 +171,14 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedNovaTrilhaRoute: typeof AuthenticatedNovaTrilhaRoute
+  AuthenticatedExercicioIdRoute: typeof AuthenticatedExercicioIdRoute
   AuthenticatedTrilhaTrilhaIdRoute: typeof AuthenticatedTrilhaTrilhaIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedNovaTrilhaRoute: AuthenticatedNovaTrilhaRoute,
+  AuthenticatedExercicioIdRoute: AuthenticatedExercicioIdRoute,
   AuthenticatedTrilhaTrilhaIdRoute: AuthenticatedTrilhaTrilhaIdRoute,
 }
 
