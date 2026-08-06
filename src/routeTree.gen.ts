@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedNovaTrilhaRouteImport } from './routes/_authenticated/nova-trilha'
+import { Route as AuthenticatedTrilhaTrilhaIdRouteImport } from './routes/_authenticated/trilha.$trilhaId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -39,18 +40,26 @@ const AuthenticatedNovaTrilhaRoute = AuthenticatedNovaTrilhaRouteImport.update({
   path: '/nova-trilha',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTrilhaTrilhaIdRoute =
+  AuthenticatedTrilhaTrilhaIdRouteImport.update({
+    id: '/trilha/$trilhaId',
+    path: '/trilha/$trilhaId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/nova-trilha': typeof AuthenticatedNovaTrilhaRoute
+  '/trilha/$trilhaId': typeof AuthenticatedTrilhaTrilhaIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/nova-trilha': typeof AuthenticatedNovaTrilhaRoute
+  '/trilha/$trilhaId': typeof AuthenticatedTrilhaTrilhaIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -59,12 +68,13 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/nova-trilha': typeof AuthenticatedNovaTrilhaRoute
+  '/_authenticated/trilha/$trilhaId': typeof AuthenticatedTrilhaTrilhaIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/dashboard' | '/nova-trilha'
+  fullPaths: '/' | '/auth' | '/dashboard' | '/nova-trilha' | '/trilha/$trilhaId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/dashboard' | '/nova-trilha'
+  to: '/' | '/auth' | '/dashboard' | '/nova-trilha' | '/trilha/$trilhaId'
   id:
     | '__root__'
     | '/'
@@ -72,6 +82,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/_authenticated/dashboard'
     | '/_authenticated/nova-trilha'
+    | '/_authenticated/trilha/$trilhaId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -117,17 +128,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedNovaTrilhaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/trilha/$trilhaId': {
+      id: '/_authenticated/trilha/$trilhaId'
+      path: '/trilha/$trilhaId'
+      fullPath: '/trilha/$trilhaId'
+      preLoaderRoute: typeof AuthenticatedTrilhaTrilhaIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedNovaTrilhaRoute: typeof AuthenticatedNovaTrilhaRoute
+  AuthenticatedTrilhaTrilhaIdRoute: typeof AuthenticatedTrilhaTrilhaIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedNovaTrilhaRoute: AuthenticatedNovaTrilhaRoute,
+  AuthenticatedTrilhaTrilhaIdRoute: AuthenticatedTrilhaTrilhaIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
