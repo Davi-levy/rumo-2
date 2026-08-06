@@ -10,63 +10,33 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as ExercicioIdRouteImport } from './routes/exercicio.$id'
-import { Route as TrilhaTrilhaIdRouteImport } from './routes/trilha.$trilhaId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ExercicioIdRoute = ExercicioIdRouteImport.update({
-  id: '/exercicio/$id',
-  path: '/exercicio/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TrilhaTrilhaIdRoute = TrilhaTrilhaIdRouteImport.update({
-  id: '/trilha/$trilhaId',
-  path: '/trilha/$trilhaId',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/exercicio/$id': typeof ExercicioIdRoute
-  '/trilha/$trilhaId': typeof TrilhaTrilhaIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/exercicio/$id': typeof ExercicioIdRoute
-  '/trilha/$trilhaId': typeof TrilhaTrilhaIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/exercicio/$id': typeof ExercicioIdRoute
-  '/trilha/$trilhaId': typeof TrilhaTrilhaIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/exercicio/$id' | '/trilha/$trilhaId'
+  fullPaths: '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/exercicio/$id' | '/trilha/$trilhaId'
-  id: '__root__' | '/' | '/dashboard' | '/exercicio/$id' | '/trilha/$trilhaId'
+  to: '/'
+  id: '__root__' | '/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
-  ExercicioIdRoute: typeof ExercicioIdRoute
-  TrilhaTrilhaIdRoute: typeof TrilhaTrilhaIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -78,45 +48,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/exercicio/$id': {
-      id: '/exercicio/$id'
-      path: '/exercicio/$id'
-      fullPath: '/exercicio/$id'
-      preLoaderRoute: typeof ExercicioIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/trilha/$trilhaId': {
-      id: '/trilha/$trilhaId'
-      path: '/trilha/$trilhaId'
-      fullPath: '/trilha/$trilhaId'
-      preLoaderRoute: typeof TrilhaTrilhaIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
-  ExercicioIdRoute: ExercicioIdRoute,
-  TrilhaTrilhaIdRoute: TrilhaTrilhaIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
