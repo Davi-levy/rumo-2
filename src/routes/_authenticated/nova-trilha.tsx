@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { gerarTrilha } from "@/lib/trilha.functions";
+import { gerarEsqueleto, gerarModulo } from "@/lib/trilha.functions";
 import { NIVEIS, type Nivel } from "@/lib/trilha.server";
 import { Navbar } from "@/components/Navbar";
 import { RevealText } from "@/components/RevealText";
@@ -22,86 +22,102 @@ const rotulos: Record<Nivel, string> = {
 
 const sugestoes = ["Python", "JavaScript", "React", "TypeScript", "Rust", "Go", "SQL", "Django"];
 
-const etapas = [
-  "Analisando a linguagem",
-  "Desenhando os módulos",
-  "Escrevendo o conteúdo",
-  "Criando os exercícios",
-  "Salvando sua trilha",
-];
-
 function NovaTrilha() {
   const [linguagem, setLinguagem] = useState("");
   const [nivel, setNivel] = useState<Nivel>("iniciante");
   const [gerando, setGerando] = useState(false);
-  const [etapa, setEtapa] = useState(0);
-  const gerar = useServerFn(gerarTrilha);
+  const [passos, setPassos] = useState<{ texto: string; feito: boolean }[]>([]);
+  const criarEsqueleto = useServerFn(gerarEsqueleto);
+  const criarModulo = useServerFn(gerarModulo);
   const navigate = useNavigate();
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!linguagem.trim()) return;
+    const tema = linguagem.trim();
     setGerando(true);
-    setEtapa(0);
+    setPassos([{ texto: "Planejando os módulos", feito: false }]);
 
-    const timer = setInterval(() => setEtapa((s) => Math.min(s + 1, etapas.length - 1)), 9000);
+    const concluir = (i: number) =>
+      setPassos((p) => p.map((x, idx) => (idx === i ? { ...x, feito: true } : x)));
 
     try {
-      const trilha = await gerar({ data: { linguagem: linguagem.trim(), nivel } });
-
       const { data: user } = await supabase.auth.getUser();
       if (!user.user) throw new Error("Sessão expirada.");
+
+      const esqueleto = await criarEsqueleto({ data: { linguagem: tema, nivel } });
+      concluir(0);
 
       const { data: novaTrilha, error: errTrilha } = await supabase
         .from("trilhas")
         .insert({
           usuario_id: user.user.id,
-          linguagem: linguagem.trim(),
+          linguagem: tema,
           nivel,
-          titulo: trilha.titulo,
-          descricao: trilha.descricao,
+          titulo: esqueleto.titulo,
+          descricao: esqueleto.descricao,
         })
         .select("id")
         .single();
       if (errTrilha || !novaTrilha) throw errTrilha ?? new Error("Falha ao salvar a trilha.");
 
-      const { data: modulos, error: errModulos } = await supabase
-        .from("modulos")
-        .insert(
-          trilha.modulos.map((m, i) => ({
-            trilha_id: novaTrilha.id,
-            titulo: m.titulo,
-            conteudo: m.conteudo,
-            ordem: i,
-          })),
-        )
-        .select("id, ordem");
-      if (errModulos || !modulos) throw errModulos ?? new Error("Falha ao salvar os módulos.");
+      setPassos([
+        { texto: "Planejando os módulos", feito: true },
+        ...esqueleto.modulos.map((m) => ({ texto: `Escrevendo: ${m.titulo}`, feito: false })),
+      ]);
 
-      const porOrdem = new Map(modulos.map((m) => [m.ordem, m.id]));
-      const exercicios = trilha.modulos.flatMap((m, i) =>
-        m.exercicios.map((ex, j) => ({
-          modulo_id: porOrdem.get(i)!,
-          pergunta: ex.pergunta,
-          resposta_esperada: ex.resposta_esperada,
-          dica: ex.dica ?? null,
-          explicacao: ex.explicacao ?? null,
-          ordem: j,
-        })),
-      );
-      const { error: errEx } = await supabase.from("exercicios").insert(exercicios);
-      if (errEx) throw errEx;
+      const total = esqueleto.modulos.length;
+      for (let i = 0; i < total; i++) {
+        const plano = esqueleto.modulos[i]!;
+        const gerado = await criarModulo({
+          data: {
+            linguagem: tema,
+            nivel,
+            tituloTrilha: esqueleto.titulo,
+            tituloModulo: plano.titulo,
+            resumoModulo: plano.resumo,
+            posicao: i + 1,
+            total,
+          },
+        });
+
+        const { data: modulo, error: errModulo } = await supabase
+          .from("modulos")
+          .insert({
+            trilha_id: novaTrilha.id,
+            titulo: plano.titulo,
+            conteudo: gerado.conteudo,
+            ordem: i,
+          })
+          .select("id")
+          .single();
+        if (errModulo || !modulo) throw errModulo ?? new Error("Falha ao salvar o módulo.");
+
+        const { error: errEx } = await supabase.from("exercicios").insert(
+          gerado.exercicios.map((ex, j) => ({
+            modulo_id: modulo.id,
+            pergunta: ex.pergunta,
+            resposta_esperada: ex.resposta_esperada,
+            dica: ex.dica ?? null,
+            explicacao: ex.explicacao ?? null,
+            ordem: j,
+          })),
+        );
+        if (errEx) throw errEx;
+
+        concluir(i + 1);
+      }
 
       toast.success("Trilha criada!");
       navigate({ to: "/trilha/$trilhaId", params: { trilhaId: novaTrilha.id } });
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Erro ao gerar trilha";
-      toast.error(/429|rate/i.test(msg) ? "Muitas gerações agora. Tente em instantes." : msg);
+      toast.error(msg);
       setGerando(false);
-    } finally {
-      clearInterval(timer);
     }
   }
+
+  const feitos = passos.filter((p) => p.feito).length;
 
   return (
     <div className="min-h-screen bg-background">
@@ -117,22 +133,30 @@ function NovaTrilha() {
               />
               <h1 className="mt-10 font-display text-3xl font-bold">Gerando sua trilha</h1>
               <p className="mt-3 text-sm text-muted-foreground">
-                Isso leva cerca de um minuto. Não feche a página.
+                Cada módulo é escrito separadamente. Não feche a página.
               </p>
-              <ul className="mt-10 space-y-3">
-                {etapas.map((e, i) => (
+              <div className="mt-8 h-px w-full bg-border">
+                <motion.div
+                  className="h-px bg-foreground"
+                  animate={{ width: `${passos.length ? (feitos / passos.length) * 100 : 0}%` }}
+                  transition={{ duration: 0.4 }}
+                />
+              </div>
+              <ul className="mt-8 space-y-3">
+                {passos.map((p, i) => (
                   <li
-                    key={e}
+                    key={`${p.texto}-${i}`}
                     className={`text-sm transition-colors ${
-                      i <= etapa ? "text-foreground" : "text-muted-foreground/40"
+                      p.feito ? "text-foreground" : i === feitos ? "text-foreground" : "text-muted-foreground/40"
                     }`}
                   >
-                    {i < etapa ? "— " : i === etapa ? "› " : "  "}
-                    {e}
+                    {p.feito ? "— " : i === feitos ? "› " : "  "}
+                    {p.texto}
                   </li>
                 ))}
               </ul>
             </div>
+
           ) : (
             <>
               <h1 className="font-display text-4xl font-bold">
