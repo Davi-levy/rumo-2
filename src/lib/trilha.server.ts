@@ -24,7 +24,7 @@ export const TrilhaGeradaSchema = z.object({
 
 export type TrilhaGerada = z.infer<typeof TrilhaGeradaSchema>;
 
-export function buildPrompt(linguagem: string, nivel: Nivel) {
+export function buildPrompt(linguagem: string, nivel: Nivel, erroAnterior?: string) {
   const rotulo =
     nivel === "iniciante" ? "iniciante absoluto" : nivel === "intermediario" ? "intermediário" : "avançado";
 
@@ -39,7 +39,27 @@ Regras:
 - Não use crases fora dos blocos de código do campo "conteudo".
 
 Responda SOMENTE com JSON válido, sem texto antes ou depois, neste formato exato:
-{"titulo":"...","descricao":"...","modulos":[{"titulo":"...","conteudo":"...","exercicios":[{"pergunta":"...","resposta_esperada":"...","dica":"...","explicacao":"..."}]}]}`;
+{"titulo":"...","descricao":"...","modulos":[{"titulo":"...","conteudo":"...","exercicios":[{"pergunta":"...","resposta_esperada":"...","dica":"...","explicacao":"..."}]}]}${
+    erroAnterior
+      ? `
+
+ATENÇÃO: a resposta anterior foi rejeitada (${erroAnterior}). Devolva APENAS o objeto JSON completo e fechado, sem markdown, sem comentários, sem quebras de linha literais dentro das strings (use \\n) e sem cortar no meio.`
+      : ""
+  }`;
+}
+
+export function validarTrilha(t: TrilhaGerada) {
+  if (!t.titulo.trim() || !t.descricao.trim()) throw new Error("título ou descrição vazios");
+  if (t.modulos.length < 4) throw new Error(`só ${t.modulos.length} módulos foram gerados`);
+  t.modulos.forEach((m, i) => {
+    if (!m.titulo.trim()) throw new Error(`módulo ${i + 1} sem título`);
+    if (m.conteudo.trim().length < 200) throw new Error(`módulo ${i + 1} com conteúdo muito curto`);
+    if (m.exercicios.length < 2) throw new Error(`módulo ${i + 1} com poucos exercícios`);
+    m.exercicios.forEach((ex, j) => {
+      if (!ex.pergunta.trim() || !ex.resposta_esperada.trim())
+        throw new Error(`exercício ${j + 1} do módulo ${i + 1} incompleto`);
+    });
+  });
 }
 
 export function parseTrilhaJson(text: string): TrilhaGerada {
