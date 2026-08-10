@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Navbar } from "@/components/Navbar";
 import { RevealText } from "@/components/RevealText";
 import { PageTransition } from "@/components/PageTransition";
+import { Markdown } from "@/components/Markdown";
 
 export const Route = createFileRoute("/_authenticated/trilha/$trilhaId")({
   component: TrilhaPage,
