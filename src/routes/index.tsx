@@ -27,20 +27,6 @@ function Index() {
 
       {/* Hero */}
       <section className="relative pt-40 pb-32 px-6 overflow-hidden">
-        <motion.div
-          aria-hidden
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5 }}
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px)",
-            backgroundSize: "80px 80px",
-            maskImage: "radial-gradient(circle at center, black 30%, transparent 70%)",
-          }}
-        />
-
         <div className="relative max-w-5xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0 }}
