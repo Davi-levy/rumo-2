@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { streamText } from "ai";
+import { Output, streamText } from "ai";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { createLovableAiGatewayProvider } from "./ai-gateway.server";
@@ -13,6 +13,7 @@ import {
   validarEsqueleto,
   validarModulo,
 } from "./trilha.server";
+
 
 const MAX_TENTATIVAS = 3;
 
