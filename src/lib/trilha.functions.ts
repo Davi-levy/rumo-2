@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { streamText } from "ai";
+import { Output, streamText } from "ai";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { createLovableAiGatewayProvider } from "./ai-gateway.server";
@@ -13,6 +13,7 @@ import {
   validarEsqueleto,
   validarModulo,
 } from "./trilha.server";
+
 
 const MAX_TENTATIVAS = 3;
 
@@ -34,10 +35,11 @@ function transitorio(err: unknown) {
   return status === 429 || (status ?? 0) >= 500 || /429|rate|timeout|fetch|network/i.test(msg);
 }
 
-/** Gera texto e valida o JSON, com re-tentativas quando a IA devolve algo inválido. */
+/** Gera JSON estruturado, com re-tentativas quando a IA devolve algo inválido. */
 async function gerarJson<T>(
+  schema: z.ZodType<T>,
   construirPrompt: (erroAnterior?: string) => string,
-  parse: (valor: unknown) => T,
+  validar: (valor: T) => void,
   maxOutputTokens: number,
 ): Promise<T> {
   const key = process.env["LOVABLE_API_KEY"];
@@ -47,15 +49,21 @@ async function gerarJson<T>(
   let ultimoErro: string | undefined;
 
   for (let tentativa = 1; tentativa <= MAX_TENTATIVAS; tentativa++) {
-    let texto = "";
+    let valor: unknown;
     try {
       const result = streamText({
         model: gateway("google/gemini-3.6-flash"),
         prompt: construirPrompt(ultimoErro),
         maxOutputTokens,
         maxRetries: 0,
+        output: Output.object({ schema }),
       });
-      texto = await result.text;
+      try {
+        valor = await result.output;
+      } catch {
+        // fallback: alguns retornos vêm com cercas de markdown ou texto extra
+        valor = extrairJson(await result.text);
+      }
     } catch (err) {
       if (!transitorio(err) || tentativa === MAX_TENTATIVAS) erroDeRede(err);
       await new Promise((r) => setTimeout(r, 1000 * tentativa));
@@ -63,7 +71,9 @@ async function gerarJson<T>(
     }
 
     try {
-      return parse(extrairJson(texto));
+      const parsed = schema.parse(valor);
+      validar(parsed);
+      return parsed;
     } catch (err) {
       ultimoErro = err instanceof Error ? err.message : "JSON inválido";
       if (tentativa === MAX_TENTATIVAS) {
@@ -82,13 +92,10 @@ export const gerarEsqueleto = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) =>
     gerarJson(
+      EsqueletoSchema,
       (erro) => promptEsqueleto(data.linguagem, data.nivel, erro),
-      (valor) => {
-        const e = EsqueletoSchema.parse(valor);
-        validarEsqueleto(e);
-        return e;
-      },
-      2000,
+      validarEsqueleto,
+      4000,
     ),
   );
 
@@ -108,13 +115,6 @@ export const gerarModulo = createServerFn({ method: "POST" })
       .parse(input),
   )
   .handler(async ({ data }) =>
-    gerarJson(
-      (erro) => promptModulo(data, erro),
-      (valor) => {
-        const m = ModuloSchema.parse(valor);
-        validarModulo(m);
-        return m;
-      },
-      3000,
-    ),
+    gerarJson(ModuloSchema, (erro) => promptModulo(data, erro), validarModulo, 8000),
   );
+
