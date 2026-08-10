@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Navbar } from "@/components/Navbar";
 import { RevealText } from "@/components/RevealText";
 import { PageTransition } from "@/components/PageTransition";
+import { Markdown } from "@/components/Markdown";
 
 export const Route = createFileRoute("/_authenticated/trilha/$trilhaId")({
   component: TrilhaPage,
@@ -124,9 +125,8 @@ function TrilhaPage() {
                           animate={{ opacity: 1, height: "auto" }}
                           className="overflow-hidden pb-8 pl-10"
                         >
-                          <article className="prose-rumo text-sm leading-relaxed whitespace-pre-wrap">
-                            {m.conteudo}
-                          </article>
+                          <Markdown>{m.conteudo}</Markdown>
+
 
                           <div className="mt-8 space-y-2">
                             <p className="text-xs uppercase tracking-widest text-muted-foreground">
