@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { Github } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { RevealText } from "@/components/RevealText";
 
