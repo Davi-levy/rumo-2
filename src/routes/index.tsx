@@ -28,15 +28,7 @@ function Index() {
       {/* Hero */}
       <section className="relative pt-40 pb-32 px-6 overflow-hidden">
         <div className="relative max-w-5xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-3 py-1 border border-border text-xs font-mono text-muted-foreground mb-8"
-          >
-            <span className="w-1.5 h-1.5 bg-foreground rounded-full" />
-            PLATAFORMA DE ESTUDOS
-          </motion.div>
+          {/* PLATAFORMA DE ESTUDOS badge removed */}
 
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] text-balance">
             <RevealText text="Aprenda a programar" />
