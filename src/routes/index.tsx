@@ -112,7 +112,7 @@ function Index() {
       <footer className="border-t border-border px-6 py-12">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <div className="font-display font-bold tracking-[0.3em] text-foreground">RUMO</div>
-          <div>© {new Date().getFullYear()} — Plataforma de estudos de programação.</div>
+          <div />
           <a
             href="https://github.com/Davi-levy/rumo"
             target="_blank"
