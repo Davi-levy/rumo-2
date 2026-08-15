@@ -7,7 +7,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { gerarEsqueleto, gerarModulo } from "@/lib/trilha.functions";
 import { NIVEIS, type Nivel } from "@/lib/trilha.server";
 import { Navbar } from "@/components/Navbar";
-import { RevealText } from "@/components/RevealText";
 import { PageTransition } from "@/components/PageTransition";
 
 export const Route = createFileRoute("/_authenticated/nova-trilha")({
@@ -160,7 +159,7 @@ function NovaTrilha() {
           ) : (
             <>
               <h1 className="font-display text-4xl font-bold">
-                <RevealText text="Nova trilha" />
+                Nova trilha
               </h1>
               <p className="mt-3 text-sm text-muted-foreground">
                 Diga o que você quer aprender. A IA monta os módulos, o conteúdo e os exercícios.

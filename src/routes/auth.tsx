@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { RevealText } from "@/components/RevealText";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -93,7 +92,7 @@ function AuthPage() {
           className="w-full max-w-sm"
         >
           <h1 className="font-display text-3xl font-bold">
-            <RevealText text={modo === "entrar" ? "Entrar" : "Criar conta"} />
+            {modo === "entrar" ? "Entrar" : "Criar conta"}
           </h1>
           <p className="mt-3 text-sm text-muted-foreground">
             Suas trilhas ficam salvas na sua conta.
