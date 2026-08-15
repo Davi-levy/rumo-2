@@ -106,7 +106,7 @@ function Index() {
           <div className="font-display font-bold tracking-[0.3em] text-foreground">RUMO</div>
           <div />
           <a
-            href="https://github.com/Davi-levy/rumo"
+            href="https://github.com/Davi-levy"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 hover:text-foreground transition-colors"
