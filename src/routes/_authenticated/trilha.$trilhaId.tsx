@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Navbar } from "@/components/Navbar";
-import { RevealText } from "@/components/RevealText";
 import { PageTransition } from "@/components/PageTransition";
 import { Markdown } from "@/components/Markdown";
 
@@ -86,7 +85,7 @@ function TrilhaPage() {
                 {trilha.linguagem}
               </p>
               <h1 className="mt-3 font-display text-4xl font-bold">
-                <RevealText text={trilha.titulo} />
+                {trilha.titulo}
               </h1>
               {trilha.descricao && <p className="mt-4 text-sm text-muted-foreground">{trilha.descricao}</p>}
 

@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Navbar } from "@/components/Navbar";
-import { RevealText } from "@/components/RevealText";
 import { PageTransition } from "@/components/PageTransition";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
@@ -75,7 +74,7 @@ function Dashboard() {
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
               <h1 className="font-display text-4xl font-bold">
-                <RevealText text="Suas trilhas" />
+                Suas trilhas
               </h1>
               <p className="mt-3 text-sm text-muted-foreground">
                 Escolha uma linguagem e a IA monta a trilha completa para você.
