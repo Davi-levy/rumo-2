@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Github } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
-import { RevealText } from "@/components/RevealText";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,9 +31,9 @@ function Index() {
           {/* PLATAFORMA DE ESTUDOS badge removed */}
 
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] text-balance">
-            <RevealText text="Aprenda a programar" />
+            <span>Aprenda a programar</span>
             <br />
-            <RevealText text="com o apoio da IA" delay={0.5} className="text-muted-foreground" />
+            <span className="text-muted-foreground">com o apoio da IA</span>
           </h1>
 
           <motion.p
