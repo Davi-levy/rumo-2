@@ -51,7 +51,7 @@ function AuthPage() {
           },
         });
         if (error) throw error;
-        toast.success("Conta criada. Bem-vindo ao RUMO.");
+        toast.success("Conta criada.");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email: mail, password: senha });
         if (error) throw error;
