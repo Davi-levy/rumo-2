@@ -32,8 +32,9 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'Space Mono', 'Geist Mono', monospace;
+  --font-sans: 'General Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Satoshi', system-ui, sans-serif;
 }
 
 :root {
@@ -84,8 +85,9 @@
 
 @layer utilities {
   .font-display {
-    font-family: var(--font-mono);
+    font-family: var(--font-display);
     letter-spacing: -0.02em;
+    font-weight: 700;
   }
 
   .text-balance {
