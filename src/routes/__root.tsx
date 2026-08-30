@@ -34,7 +34,7 @@ export const Route = createRootRoute({
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "RUMO — Aprenda a programar com IA" },
       { name: "description", content: "Trilhas de exercícios de programação com feedback inteligente e personalizado." },
-      { property: "og:title", content: "RUMO — Aprenda a programar com IA" },
+      { property: "og:title", content: "RUMO" },
       { property: "og:description", content: "Trilhas de exercícios de programação com feedback inteligente." },
       { property: "og:type", content: "website" },
     ],
