@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
 
 const features = [
   { num: "01", title: "Trilhas", desc: "Caminhos estruturados, do básico ao avançado, organizados por tema." },
-  { num: "02", title: "Feedback IA", desc: "Análise instantânea da sua resposta com sugestões personalizadas." },
+  { num: "02", title: "Feedback da IA", desc: "Análise instantânea da sua resposta com sugestões personalizadas." },
   { num: "03", title: "Progresso", desc: "Acompanhe sua evolução em cada trilha de forma clara e objetiva." },
 ];
 
