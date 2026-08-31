@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -51,7 +52,7 @@ function AuthPage() {
           },
         });
         if (error) throw error;
-        toast.success("Conta criada.");
+        toast.success("Conta criada. Bem-vindo ao RUMO.");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email: mail, password: senha });
         if (error) throw error;
@@ -79,8 +80,9 @@ function AuthPage() {
   return (
     <main className="min-h-screen bg-background flex flex-col">
       <div className="px-6 py-6">
-        <Link to="/" className="font-display text-lg font-bold tracking-[0.3em]">
-          RUMO
+        <Link to="/" className="flex items-center gap-1 font-display text-lg font-bold tracking-[0.3em]">
+          <ChevronRight className="w-4 h-4" strokeWidth={1.5} />
+          <span className="logo-outline">RUMO</span>
         </Link>
       </div>
 

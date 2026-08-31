@@ -90,6 +90,11 @@
     font-weight: 700;
   }
 
+  .logo-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--color-foreground);
+  }
+
   .text-balance {
     text-wrap: balance;
   }

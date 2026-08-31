@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -20,8 +21,9 @@ export function Navbar() {
       className="fixed top-0 inset-x-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl"
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link to="/" className="font-display text-xl font-bold tracking-[0.3em]">
-          RUMO
+        <Link to="/" className="flex items-center gap-1 font-display text-xl font-bold tracking-[0.3em]">
+          <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
+          <span className="logo-outline">RUMO</span>
         </Link>
         <div className="flex items-center gap-8 text-sm">
           {user ? (

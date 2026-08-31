@@ -1,13 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Github } from "lucide-react";
+import { Github, ChevronRight } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "RUMO" },
+      { title: "RUMO — Aprenda a programar com IA" },
       { name: "description", content: "Trilhas de exercícios com feedback inteligente." },
     ],
   }),
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
 
 const features = [
   { num: "01", title: "Trilhas", desc: "Caminhos estruturados, do básico ao avançado, organizados por tema." },
-  { num: "02", title: "Feedback da IA", desc: "Análise instantânea da sua resposta com sugestões personalizadas." },
+  { num: "02", title: "Feedback IA", desc: "Análise instantânea da sua resposta com sugestões personalizadas." },
   { num: "03", title: "Progresso", desc: "Acompanhe sua evolução em cada trilha de forma clara e objetiva." },
 ];
 
@@ -28,7 +28,7 @@ function Index() {
       {/* Hero */}
       <section className="relative pt-40 pb-32 px-6 overflow-hidden">
         <div className="relative max-w-5xl mx-auto text-center">
-          {}
+          {/* PLATAFORMA DE ESTUDOS badge removed */}
 
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] text-balance">
             <span>Aprenda a programar</span>
@@ -42,7 +42,7 @@ function Index() {
             transition={{ delay: 1.4, duration: 0.6 }}
             className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
           >
-            Trilhas de exercícios com feedback inteligente e personalizado
+            Trilhas de exercícios com feedback inteligente e personalizado.
           </motion.p>
 
           <motion.div
@@ -61,7 +61,7 @@ function Index() {
               to="/dashboard"
               className="px-8 py-4 border border-border text-foreground hover:border-foreground transition-colors"
             >
-              Suas trilhas
+              Ver trilhas
             </Link>
           </motion.div>
         </div>
@@ -77,7 +77,7 @@ function Index() {
             transition={{ duration: 0.6 }}
             className="font-display text-3xl md:text-5xl font-bold mb-16 max-w-2xl"
           >
-            Tudo que você precisa para progredir
+            Tudo que você precisa para evoluir.
           </motion.h2>
 
           <div className="grid md:grid-cols-3 gap-px bg-border">
@@ -103,17 +103,20 @@ function Index() {
       {/* Footer */}
       <footer className="border-t border-border px-6 py-12">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <div className="font-display font-bold tracking-[0.3em] text-foreground">RUMO</div>
+          <div className="flex items-center gap-1 font-display font-bold tracking-[0.3em] text-foreground">
+            <ChevronRight className="w-4 h-4" strokeWidth={1.5} />
+            <span className="logo-outline">RUMO</span>
+          </div>
           <div />
           <a
-            href="https://github.com/Davi-levy/rumo"
+            href="https://github.com/Davi-levy"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 hover:text-foreground transition-colors"
             aria-label="GitHub do RUMO"
           >
             <Github size={18} />
-            <span>GitHub do projeto</span>
+            <span>GitHub</span>
           </a>
         </div>
       </footer>
