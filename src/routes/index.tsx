@@ -28,7 +28,7 @@ function Index() {
       {/* Hero */}
       <section className="relative pt-40 pb-32 px-6 overflow-hidden">
         <div className="relative max-w-5xl mx-auto text-center">
-          {/* PLATAFORMA DE ESTUDOS badge removed */}
+          {}
 
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] text-balance">
             <span>Aprenda a programar</span>
@@ -55,13 +55,13 @@ function Index() {
               to="/dashboard"
               className="ripple-btn px-8 py-4 bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
             >
-              Começar agora
+              Começar
             </Link>
             <Link
               to="/dashboard"
               className="px-8 py-4 border border-border text-foreground hover:border-foreground transition-colors"
             >
-              Ver trilhas
+              Suas trilhas
             </Link>
           </motion.div>
         </div>
@@ -116,7 +116,7 @@ function Index() {
             aria-label="GitHub do RUMO"
           >
             <Github size={18} />
-            <span>GitHub</span>
+            <span>GitHub do projeto</span>
           </a>
         </div>
       </footer>
