@@ -9,7 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Entrar no RUMO — trilhas de programação com IA" },
+      { title: "Entrar" },
       {
         name: "description",
         content: "Acesse sua conta RUMO para criar trilhas de estudo de programação geradas por IA.",
@@ -52,7 +52,7 @@ function AuthPage() {
           },
         });
         if (error) throw error;
-        toast.success("Conta criada. Bem-vindo ao RUMO.");
+        toast.success("Conta criada. Bem-vindo.");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email: mail, password: senha });
         if (error) throw error;
@@ -97,7 +97,7 @@ function AuthPage() {
             {modo === "entrar" ? "Entrar" : "Criar conta"}
           </h1>
           <p className="mt-3 text-sm text-muted-foreground">
-            Suas trilhas ficam salvas na sua conta.
+            As trilhas ficam salvas na sua conta
           </p>
 
           <form onSubmit={submit} className="mt-8 space-y-4">
@@ -145,14 +145,14 @@ function AuthPage() {
             onClick={google}
             className="w-full border border-border py-3 text-sm font-medium hover:bg-muted transition-colors"
           >
-            Continuar com Google
+            Teste de auth google  
           </button>
 
           <button
             onClick={() => setModo(modo === "entrar" ? "criar" : "entrar")}
             className="mt-8 w-full text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
-            {modo === "entrar" ? "Não tem conta? Criar agora" : "Já tem conta? Entrar"}
+            {modo === "entrar" ? "Não tem conta? Criar" : "Já tem conta? Entrar"}
           </button>
         </motion.div>
       </div>
