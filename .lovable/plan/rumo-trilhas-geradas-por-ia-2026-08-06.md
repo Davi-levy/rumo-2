@@ -1,6 +1,6 @@
 # RUMO — Trilhas geradas por IA
 
-Não preciso de nenhuma chave sua: o Gemini já está disponível pela IA integrada da Lovable, e o banco de dados + login também são internos.
+Não preciso de nenhuma chave sua: o Gemini já está disponível pela IA integrada, e o banco de dados + login também são internos.
 
 ## Sobre o seu JSON/schema
 

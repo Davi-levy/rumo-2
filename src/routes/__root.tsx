@@ -32,9 +32,9 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "RUMO — Aprenda a programar com IA" },
+      { title: "RUMO" },
       { name: "description", content: "Trilhas de exercícios de programação com feedback inteligente e personalizado." },
-      { property: "og:title", content: "RUMO — Aprenda a programar com IA" },
+      { property: "og:title", content: "RUMO" },
       { property: "og:description", content: "Trilhas de exercícios de programação com feedback inteligente." },
       { property: "og:type", content: "website" },
     ],

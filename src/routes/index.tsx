@@ -7,7 +7,7 @@ import { Navbar } from "@/components/Navbar";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "RUMO — Aprenda a programar com IA" },
+      { title: "RUMO" },
       { name: "description", content: "Trilhas de exercícios com feedback inteligente." },
     ],
   }),
@@ -77,7 +77,7 @@ function Index() {
             transition={{ duration: 0.6 }}
             className="font-display text-3xl md:text-5xl font-bold mb-16 max-w-2xl"
           >
-            Tudo que você precisa para evoluir.
+            Tudo que você precisa para progredir
           </motion.h2>
 
           <div className="grid md:grid-cols-3 gap-px bg-border">
