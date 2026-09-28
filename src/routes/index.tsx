@@ -67,7 +67,6 @@ function Index() {
             {features.map((f) => (
               <div
                 key={f.num}
-                whileHover={{ backgroundColor: "oklch(0.08 0 0)" }}
                 className="bg-background p-10 group cursor-default border border-transparent hover:border-foreground transition-colors duration-300"
               >
                 <div className="font-mono text-xs text-muted-foreground mb-8">{f.num}</div>
