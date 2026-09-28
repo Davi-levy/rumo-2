@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -14,10 +13,7 @@ export function Navbar() {
   }
 
   return (
-    <motion.nav
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
+    <nav
       className="fixed top-0 inset-x-0 z-50 border-b border-border bg-background"
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
