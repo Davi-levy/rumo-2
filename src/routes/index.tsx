@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion } from "framer-motion";
 import { Github, ChevronRight } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 
@@ -36,21 +35,11 @@ function Index() {
             <span className="text-muted-foreground">com o apoio da IA</span>
           </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.4, duration: 0.6 }}
-            className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
-          >
+          <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Trilhas de exercícios com feedback inteligente e personalizado.
-          </motion.p>
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.6, duration: 0.6 }}
-            className="mt-12 flex items-center justify-center gap-4"
-          >
+          <div className="mt-12 flex items-center justify-center gap-4">
             <Link
               to="/dashboard"
               className="ripple-btn px-8 py-4 bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
@@ -63,7 +52,7 @@ function Index() {
             >
               Suas trilhas
             </Link>
-          </motion.div>
+          </div>
         </div>
       </section>
 
