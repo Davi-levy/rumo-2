@@ -38,37 +38,9 @@ Crie uma plataforma de estudos de programação chamada RUMO.
 
 ## PÁGINAS A CRIAR
 
-### 1. Landing Page (/)
 
-- Hero com título grande: "Aprenda a programar com o apoio da IA"
 
-- Subtítulo: "Trilhas de exercícios com feedback inteligente e personalizado"
-
-- Botão "Começar agora" e "Entrar"
-
-- Seção de features com 3 cards: Trilhas, Feedback IA, Progresso
-
-- Footer minimalista
-
-### 2. Login/Cadastro (/login)
-
-- Formulário centralizado, campo de email e senha
-
-- Alternância suave entre "Entrar" e "Criar conta" sem trocar de página
-
-- Botão de submit com animação de loading
-
-### 3. Dashboard do Aluno (/dashboard)
-
-- Saudação: "Olá, [nome] 👋"
-
-- Cards de trilhas disponíveis: Python Básico, Lógica, Web, etc.
-
-- Barra de progresso em cada trilha
-
-- Últimas atividades
-
-### 4. Tela de Exercício (/exercicio/:id)
+ Tela de Exercício (/exercicio/:id)
 
 - Enunciado do exercício em destaque
 
@@ -80,35 +52,16 @@ Crie uma plataforma de estudos de programação chamada RUMO.
 
   borda esquerda branca, texto do feedback surgindo com typewriter effect
 
-### 5. Painel do Professor (/professor)
 
-- Tabela com alunos, exercícios feitos e taxa de acerto
-
-- Visual de dashboard simples e limpo
-
-## COMPONENTES GERAIS
-
-- Navbar fixa com logo "RUMO" à esquerda e menu à direita
-
-- Logo: apenas o texto "RUMO" em fonte bold, letra-spacing amplo
-
-- Todos os botões primários: fundo branco, texto preto, sem bordas 
-
-  arredondadas (border-radius: 2px)
-
-- Botões secundários: borda branca fina, fundo transparente, texto branco
-
-## STACK
+stack: 
 
 - React + Tailwind CSS
 
 - Usar Framer Motion para todas as animações
 
-- Supabase para autenticação e banco de dados (já conectar a estrutura)
+- Supabase para autenticação e banco de dados 
 
-## ESTRUTURA DO BANCO (Supabase)
-
-Criar as seguintes tabelas:
+ ESTRUTURA DO BANCO
 
 - usuarios (id, nome, email, tipo: 'aluno' | 'professor')
 
