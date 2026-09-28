@@ -59,31 +59,21 @@ function Index() {
       {/* Features */}
       <section className="px-6 py-32 border-t border-border">
         <div className="max-w-7xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="font-display text-3xl md:text-5xl font-bold mb-16 max-w-2xl"
-          >
+          <h2 className="font-display text-3xl md:text-5xl font-bold mb-16 max-w-2xl">
             Tudo que você precisa para progredir
-          </motion.h2>
+          </h2>
 
           <div className="grid md:grid-cols-3 gap-px bg-border">
-            {features.map((f, i) => (
-              <motion.div
+            {features.map((f) => (
+              <div
                 key={f.num}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
                 whileHover={{ backgroundColor: "oklch(0.08 0 0)" }}
                 className="bg-background p-10 group cursor-default border border-transparent hover:border-foreground transition-colors duration-300"
               >
                 <div className="font-mono text-xs text-muted-foreground mb-8">{f.num}</div>
                 <h3 className="font-display text-2xl font-bold mb-4">{f.title}</h3>
                 <p className="text-muted-foreground leading-relaxed">{f.desc}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
