@@ -32,9 +32,9 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
-  --font-sans: 'General Sans', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --font-display: 'Satoshi', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --font-display: 'Space Mono', monospace;
 }
 
 :root {
@@ -86,12 +86,18 @@
 @layer utilities {
   .font-display {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
     font-weight: 700;
   }
 
   .logo-outline {
-    color: var(--color-foreground);
+    color: transparent;
+    -webkit-text-stroke: 1px var(--color-foreground);
+  }
+
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--color-foreground);
   }
 
   .text-balance {
@@ -114,37 +120,8 @@
     100% { background-position: -200% 0; }
   }
 
-  .ripple-btn {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .ripple-btn::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, rgba(0,0,0,0.15) 0%, transparent 60%);
-    opacity: 0;
-    transform: scale(0);
-    transition: transform 0.5s, opacity 0.5s;
-  }
-
-  .ripple-btn:active::after {
-    transform: scale(2);
-    opacity: 1;
-    transition: 0s;
-  }
-
-  .font-serif {
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-weight: 400;
-  }
-  .hero-glow {
-    background: radial-gradient(ellipse 60% 40% at 50% 0%, oklch(1 0 0 / 0.05), transparent 70%);
-  }
   .bento {
     border: 1px solid var(--color-border);
-    border-radius: 12px;
     padding: 2rem;
     background: var(--color-card);
     transition: border-color 200ms;

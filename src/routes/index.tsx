@@ -31,77 +31,41 @@ function Index() {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative pt-40 pb-24 px-6 overflow-hidden">
-        <div aria-hidden className="pointer-events-none absolute inset-0 hero-glow" />
-        <div className="relative max-w-4xl mx-auto text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
-            <span className="h-1.5 w-1.5 rounded-full bg-success" />
+      <section className="pt-40 pb-32 px-6 border-b border-border">
+        <div className="max-w-5xl mx-auto">
+          <div className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground mb-8">
             Trilhas geradas por IA
-          </span>
-
-          <h1 className="mt-8 font-serif text-5xl md:text-7xl leading-[1.05] tracking-[-0.03em] text-balance">
-            Aprenda a programar
+          </div>
+          <h1 className="font-display text-5xl md:text-7xl font-bold leading-[1.05]">
+            Estude programação
             <br />
-            <em className="text-muted-foreground">no seu próprio rumo.</em>
+            <span className="text-outline">no seu ritmo.</span>
           </h1>
-
-          <p className="mt-8 text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
+          <p className="mt-8 text-lg text-muted-foreground max-w-xl leading-relaxed">
             Escolha uma linguagem ou framework. A IA monta a trilha com conteúdo, exemplos e exercícios corrigidos na hora.
           </p>
-
-          <div className="mt-10 flex items-center justify-center gap-3">
+          <div className="mt-10 flex items-center gap-4">
             <Link
               to="/dashboard"
-              className="rounded-md px-6 py-3 bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 active:scale-[0.98] transition"
+              className="px-6 py-3 bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity"
             >
               Começar agora
             </Link>
             <Link
               to="/dashboard"
-              className="rounded-md px-6 py-3 border border-border text-sm hover:bg-muted transition-colors"
+              className="px-6 py-3 border border-border text-sm hover:bg-muted transition-colors"
             >
               Suas trilhas
             </Link>
           </div>
         </div>
-
-        {/* Window mockup */}
-        <div className="relative max-w-3xl mx-auto mt-20 rounded-xl border border-border bg-card overflow-hidden text-left">
-          <div className="flex items-center gap-2 px-4 h-10 border-b border-border">
-            <span className="h-2.5 w-2.5 rounded-full bg-secondary" />
-            <span className="h-2.5 w-2.5 rounded-full bg-secondary" />
-            <span className="h-2.5 w-2.5 rounded-full bg-secondary" />
-            <span className="ml-3 font-mono text-xs text-muted-foreground">rumo / nova-trilha</span>
-          </div>
-          <div className="p-6 md:p-8 font-mono text-sm space-y-5">
-            <div className="flex items-center gap-3">
-              <span className="text-muted-foreground">&gt;</span>
-              <span>Quero aprender <span className="tag-blue">Rust</span> — nível iniciante</span>
-            </div>
-            <div className="border-t border-border pt-5 space-y-3">
-              {[
-                ["01", "Ownership e borrowing", "concluído", "tag-green"],
-                ["02", "Structs e enums", "em andamento", "tag-yellow"],
-                ["03", "Tratamento de erros", "a seguir", "tag-muted"],
-              ].map(([n, t, s, c]) => (
-                <div key={n} className="flex items-center justify-between gap-4">
-                  <span>
-                    <span className="text-muted-foreground mr-3">{n}</span>
-                    {t}
-                  </span>
-                  <span className={c}>{s}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* Bento */}
-      <section className="px-6 py-32 border-t border-border">
+      <section className="px-6 py-32">
         <div className="max-w-5xl mx-auto">
           <div className="font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground mb-4">Como funciona</div>
-          <h2 className="font-serif text-4xl md:text-5xl tracking-[-0.02em] leading-[1.1] mb-16 max-w-2xl">
+          <h2 className="font-display text-4xl md:text-5xl font-bold leading-[1.1] mb-16 max-w-2xl">
             Tudo o que você precisa para sair do zero.
           </h2>
 
@@ -114,7 +78,7 @@ function Index() {
               </p>
               <div className="mt-8 flex flex-wrap gap-2">
                 {linguagens.map((l) => (
-                  <span key={l} className="rounded-md border border-border px-2.5 py-1 font-mono text-xs text-muted-foreground">
+                  <span key={l} className="border border-border px-2.5 py-1 font-mono text-xs text-muted-foreground">
                     {l}
                   </span>
                 ))}
@@ -143,7 +107,7 @@ function Index() {
               <p className="text-muted-foreground leading-relaxed max-w-md">
                 Seu avanço fica salvo na sua conta, trilha por trilha.
               </p>
-              <div className="mt-8 h-1.5 w-full rounded-full bg-secondary overflow-hidden">
+              <div className="mt-8 h-1.5 w-full bg-secondary overflow-hidden">
                 <div className="h-full w-[62%] bg-foreground" />
               </div>
               <div className="mt-3 flex justify-between font-mono text-xs text-muted-foreground">
@@ -158,7 +122,7 @@ function Index() {
       {/* Footer */}
       <footer className="border-t border-border px-6 py-12">
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-4 text-sm text-muted-foreground">
-          <span className="font-display font-bold tracking-[0.3em] text-foreground">RUMO</span>
+          <span className="font-display font-bold tracking-[0.3em] text-foreground logo-outline">RUMO</span>
           <a
             href="https://github.com/Davi-levy"
             target="_blank"
