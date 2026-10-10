@@ -31,20 +31,17 @@ function Index() {
       <Navbar />
 
       {/* Hero */}
-      <section className="pt-40 pb-32 px-6 border-b border-border">
-        <div className="max-w-5xl mx-auto">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground mb-8">
-            Trilhas geradas por IA
-          </div>
-          <h1 className="font-display text-5xl md:text-7xl font-bold leading-[1.05]">
-            Estude programação
+      <section className="pt-48 pb-40 px-6 border-b border-border">
+        <div className="max-w-5xl mx-auto text-center">
+          <h1 className="font-display text-5xl md:text-7xl font-bold leading-[1.08]">
+            Aprenda a programar
             <br />
-            <span className="text-outline">no seu ritmo.</span>
+            <span className="text-muted-foreground">com o apoio da IA</span>
           </h1>
-          <p className="mt-8 text-lg text-muted-foreground max-w-xl leading-relaxed">
-            Escolha uma linguagem ou framework. A IA monta a trilha com conteúdo, exemplos e exercícios corrigidos na hora.
+          <p className="mt-8 text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
+            Trilhas de exercícios com feedback inteligente e personalizado.
           </p>
-          <div className="mt-10 flex items-center gap-4">
+          <div className="mt-10 flex items-center justify-center gap-4">
             <Link
               to="/dashboard"
               className="px-6 py-3 bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity"
@@ -55,7 +52,7 @@ function Index() {
               to="/dashboard"
               className="px-6 py-3 border border-border text-sm hover:bg-muted transition-colors"
             >
-              Suas trilhas
+              Ver trilhas
             </Link>
           </div>
         </div>
