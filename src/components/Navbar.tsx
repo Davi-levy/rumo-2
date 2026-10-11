@@ -1,17 +1,7 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/hooks/useAuth";
 
 export function Navbar() {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-
-  async function sair() {
-    await supabase.auth.signOut();
-    navigate({ to: "/auth", replace: true });
-  }
-
   return (
     <nav
       className="fixed top-0 inset-x-0 z-50 border-b border-border bg-background"
@@ -22,27 +12,13 @@ export function Navbar() {
           <span className="logo-outline">RUMO</span>
         </Link>
         <div className="flex items-center gap-8 text-sm">
-          {user ? (
-            <>
-              <Link
-                to="/dashboard"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-                activeProps={{ className: "text-foreground" }}
-              >
-                Trilhas
-              </Link>
-              <button
-                onClick={sair}
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Sair
-              </button>
-            </>
-          ) : (
-            <Link to="/auth" className="text-muted-foreground hover:text-foreground transition-colors">
-              Entrar
-            </Link>
-          )}
+          <Link
+            to="/dashboard"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+            activeProps={{ className: "text-foreground" }}
+          >
+            Trilhas
+          </Link>
         </div>
       </div>
   </nav>
