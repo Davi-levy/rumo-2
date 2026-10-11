@@ -253,7 +253,7 @@ function NovaTrilha() {
           onClick={() => setLimiteAtingido(false)}
         >
           <div
-            className="w-full max-w-lg rounded-2xl border border-border bg-background p-8 sm:p-10"
+            className="w-full max-w-lg rounded-[14px] border border-border bg-background p-8 sm:p-10"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="font-display text-2xl font-bold">Limite de trilhas</h2>
@@ -265,7 +265,7 @@ function NovaTrilha() {
             </p>
             <button
               onClick={() => setLimiteAtingido(false)}
-              className="mt-8 w-full rounded-xl bg-primary text-primary-foreground py-3 text-sm font-medium hover:opacity-90 transition-opacity"
+              className="mt-8 w-full rounded-[10px] bg-primary text-primary-foreground py-3 text-sm font-medium hover:opacity-90 transition-opacity"
             >
               Entendi
             </button>
