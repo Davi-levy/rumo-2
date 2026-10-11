@@ -45,7 +45,8 @@ function NovaTrilha() {
       const { count } = await supabase
         .from("trilhas")
         .select("id", { count: "exact", head: true });
-      if ((count ?? 0) >= 2) {
+      // Temporário: ">= 0" força o popup em todo clique, para revisão visual. Voltar para ">= 2" depois.
+      if ((count ?? 0) >= 0) {
         setLimiteAtingido(true);
         setGerando(false);
         setPassos([]);
