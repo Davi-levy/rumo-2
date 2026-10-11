@@ -160,7 +160,7 @@ export type Database = {
           linguagem: string
           nivel: Database["public"]["Enums"]["nivel_trilha"]
           titulo: string
-          usuario_id: string
+          usuario_id: string | null
         }
         Insert: {
           criado_em?: string
@@ -169,7 +169,7 @@ export type Database = {
           linguagem: string
           nivel?: Database["public"]["Enums"]["nivel_trilha"]
           titulo: string
-          usuario_id: string
+          usuario_id?: string | null
         }
         Update: {
           criado_em?: string
@@ -178,7 +178,7 @@ export type Database = {
           linguagem?: string
           nivel?: Database["public"]["Enums"]["nivel_trilha"]
           titulo?: string
-          usuario_id?: string
+          usuario_id?: string | null
         }
         Relationships: []
       }
