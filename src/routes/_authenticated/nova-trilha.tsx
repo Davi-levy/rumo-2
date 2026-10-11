@@ -25,6 +25,7 @@ function NovaTrilha() {
   const [linguagem, setLinguagem] = useState("");
   const [nivel, setNivel] = useState<Nivel>("iniciante");
   const [gerando, setGerando] = useState(false);
+  const [limiteAtingido, setLimiteAtingido] = useState(false);
   const [passos, setPassos] = useState<{ texto: string; feito: boolean }[]>([]);
   const criarEsqueleto = useServerFn(gerarEsqueleto);
   const criarModulo = useServerFn(gerarModulo);
@@ -41,8 +42,15 @@ function NovaTrilha() {
       setPassos((p) => p.map((x, idx) => (idx === i ? { ...x, feito: true } : x)));
 
     try {
-      const { data: user } = await supabase.auth.getUser();
-      if (!user.user) throw new Error("Sessão expirada.");
+      const { count } = await supabase
+        .from("trilhas")
+        .select("id", { count: "exact", head: true });
+      if ((count ?? 0) >= 2) {
+        setLimiteAtingido(true);
+        setGerando(false);
+        setPassos([]);
+        return;
+      }
 
       const esqueleto = await criarEsqueleto({ data: { linguagem: tema, nivel } });
       concluir(0);
@@ -50,7 +58,6 @@ function NovaTrilha() {
       const { data: novaTrilha, error: errTrilha } = await supabase
         .from("trilhas")
         .insert({
-          usuario_id: user.user.id,
           linguagem: tema,
           nivel,
           titulo: esqueleto.titulo,
@@ -222,6 +229,29 @@ function NovaTrilha() {
           )}
         </main>
       </PageTransition>
+
+      {limiteAtingido && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-background/60 backdrop-blur-md px-6"
+          onClick={() => setLimiteAtingido(false)}
+        >
+          <div
+            className="w-full max-w-sm border border-border bg-background p-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="font-display text-2xl font-bold">Limite de trilhas</h2>
+            <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+              Você já tem 2 trilhas, o máximo permitido por enquanto. Conclua ou remova uma trilha para criar outra.
+            </p>
+            <button
+              onClick={() => setLimiteAtingido(false)}
+              className="mt-8 w-full bg-primary text-primary-foreground py-3 text-sm font-medium hover:opacity-90 transition-opacity"
+            >
+              Entendi
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
