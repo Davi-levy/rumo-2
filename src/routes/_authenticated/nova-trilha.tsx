@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { gerarEsqueleto, gerarModulo } from "@/lib/trilha.functions";
@@ -27,9 +27,25 @@ function NovaTrilha() {
   const [gerando, setGerando] = useState(false);
   const [limiteAtingido, setLimiteAtingido] = useState(false);
   const [passos, setPassos] = useState<{ texto: string; feito: boolean }[]>([]);
+  const [tempoLimite, setTempoLimite] = useState("00:00");
   const criarEsqueleto = useServerFn(gerarEsqueleto);
   const criarModulo = useServerFn(gerarModulo);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    function atualizar() {
+      const agora = new Date();
+      const reinicio = new Date(agora);
+      reinicio.setHours(24, 0, 0, 0);
+      const restante = reinicio.getTime() - agora.getTime();
+      const horas = Math.floor(restante / 3_600_000);
+      const minutos = Math.floor((restante % 3_600_000) / 60_000);
+      setTempoLimite(`${String(horas).padStart(2, "0")}:${String(minutos).padStart(2, "0")}`);
+    }
+    atualizar();
+    const id = setInterval(atualizar, 1000);
+    return () => clearInterval(id);
+  }, []);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -237,16 +253,19 @@ function NovaTrilha() {
           onClick={() => setLimiteAtingido(false)}
         >
           <div
-            className="w-full max-w-sm border border-border bg-background p-8"
+            className="w-full max-w-lg rounded-2xl border border-border bg-background p-8 sm:p-10"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="font-display text-2xl font-bold">Limite de trilhas</h2>
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
               Você já tem 2 trilhas, o máximo permitido por enquanto. Conclua ou remova uma trilha para criar outra.
             </p>
+            <p className="mt-6 font-display text-sm font-bold tracking-tight">
+              Tempo até o limite: {tempoLimite}
+            </p>
             <button
               onClick={() => setLimiteAtingido(false)}
-              className="mt-8 w-full bg-primary text-primary-foreground py-3 text-sm font-medium hover:opacity-90 transition-opacity"
+              className="mt-8 w-full rounded-xl bg-primary text-primary-foreground py-3 text-sm font-medium hover:opacity-90 transition-opacity"
             >
               Entendi
             </button>
