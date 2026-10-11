@@ -35,6 +35,9 @@ function NovaTrilha() {
     e.preventDefault();
     if (!linguagem.trim()) return;
     const tema = linguagem.trim();
+    // Temporário: mostra o popup de limite em todo clique, para revisão visual.
+    setLimiteAtingido(true);
+    return;
     setGerando(true);
     setPassos([{ texto: "Planejando os módulos", feito: false }]);
 
