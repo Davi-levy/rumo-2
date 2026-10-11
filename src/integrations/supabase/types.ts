@@ -120,7 +120,7 @@ export type Database = {
           feedback: string | null
           id: string
           resposta: string
-          usuario_id: string
+          usuario_id: string | null
         }
         Insert: {
           acertou?: boolean
@@ -130,7 +130,7 @@ export type Database = {
           feedback?: string | null
           id?: string
           resposta: string
-          usuario_id: string
+          usuario_id?: string | null
         }
         Update: {
           acertou?: boolean
@@ -140,7 +140,7 @@ export type Database = {
           feedback?: string | null
           id?: string
           resposta?: string
-          usuario_id?: string
+          usuario_id?: string | null
         }
         Relationships: [
           {
